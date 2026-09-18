@@ -153,6 +153,8 @@ export interface BrowserStatus {
     browserRuntime: 'playwright' | 'patchright';
     runtimeWarnings: string[];
     headless: boolean;
+    cdpEndpoint?: string;
+    cdpConnected: boolean;
     opencliEnabled: boolean;
     opencliInstalled: boolean;
     opencliEntryPath?: string;

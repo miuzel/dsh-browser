@@ -67,6 +67,8 @@ export declare const zh: {
     readonly rulePacksHint: "域名匹配、哈希固定 init script 和有界步骤。";
     readonly executablePath: "浏览器可执行文件";
     readonly executablePathHint: "少数自定义部署才需要覆盖。";
+    readonly cdpEndpoint: "CDP 端点";
+    readonly cdpEndpointHint: "连接已有浏览器实例的 CDP 地址（如 http://127.0.0.1:9222）。配置后优先于启动新实例。";
     readonly snapshotDir: "快照目录";
     readonly snapshotDirHint: "留空使用 DSH_HOME 下的默认目录。";
     readonly verbose: "详细日志";

@@ -29,6 +29,8 @@ export interface Config {
     rulePacks?: Record<string, RulePackConfig>;
     /** Explicit browser executable path override (rare). */
     executablePath?: string;
+    /** CDP endpoint URL to connect to an existing browser instance (e.g., http://127.0.0.1:9222). */
+    cdpEndpoint?: string;
     /** Whether the bundled OpenCLI is enabled. */
     opencliEnabled: boolean;
     /** Model-facing tool exposure and approval level. */
@@ -54,6 +56,7 @@ export interface ResolvedConfig {
     defaultAuthProfile?: string;
     rulePacks: Record<string, RulePackConfig>;
     executablePath?: string;
+    cdpEndpoint?: string;
     opencliEnabled: boolean;
     automationMode: AutomationMode;
     usagePolicy: UsagePolicy;
