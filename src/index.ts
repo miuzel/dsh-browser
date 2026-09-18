@@ -88,5 +88,5 @@ export function apply(ctx: Context, config: Config): void {
     } catch { /* marker is best-effort */ }
   }
 
-  ctx.logger?.(name).info('dsh-browser loaded: channel=' + resolved.channel + ' headless=' + resolved.headless + ' opencli=' + resolved.opencliEnabled + ' automation=' + resolved.automationMode)
+  ctx.logger?.(name).info('dsh-browser loaded: channel=' + resolved.channel + ' headless=' + resolved.headless + ' cdp=' + (resolved.cdpEndpoint || 'none') + ' opencli=' + resolved.opencliEnabled + ' automation=' + resolved.automationMode)
 }

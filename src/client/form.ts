@@ -4,7 +4,7 @@ import type { SettingsScope } from '@deepseek-ai/dsh-client-ui-settings/client'
 export type SettingField =
   | 'enabled' | 'automationMode' | 'browserRuntime' | 'channel' | 'headless' | 'opencliEnabled'
   | 'usagePolicy' | 'automationAssets' | 'autoInstall' | 'storageStatePath' | 'authProfiles' | 'defaultAuthProfile'
-  | 'rulePacks' | 'executablePath' | 'snapshotDir' | 'verbose'
+  | 'rulePacks' | 'executablePath' | 'cdpEndpoint' | 'snapshotDir' | 'verbose'
 
 export interface CardFieldState {
   text: string
@@ -110,6 +110,7 @@ export const FIELD_SPECS: readonly FieldSpec[] = [
   textField('defaultAuthProfile'),
   jsonField('rulePacks'),
   textField('executablePath'),
+  textField('cdpEndpoint'),
   textField('snapshotDir'),
   booleanField('verbose'),
 ] as const

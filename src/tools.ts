@@ -78,6 +78,7 @@ const RECIPE_STEP_SCHEMA = {
 } as const
 
 const COMPLIANCE_NOTICE = 'The caller/operator must use this capability according to the target site rules and applicable requirements; dsh-browser only executes the requested browser operation and does not determine whether a particular use is permitted.'
+const CDP_NOTICE = ' Tip: For complex automation, consider using Playwright directly via node -e with connectOverCDP() to the configured CDP endpoint for full control.'
 
 const FRAME_SCHEMA = {
   type: 'object' as const,
@@ -156,7 +157,7 @@ export function registerTools(ctx: Context, config: ResolvedConfig, service: Bro
 
   register(defineTool({
     name: 'browser_automation_develop',
-    description: '[Experimental] Explicitly inspect, save, validate, or replay one reusable automation draft. Use search first. Full recipe/source is returned only for action=get with an exact id. This tool never activates assets. ' + COMPLIANCE_NOTICE,
+    description: '[Experimental] Explicitly inspect, save, validate, or replay one reusable automation draft. Use search first. Full recipe/source is returned only for action=get with an exact id. This tool never activates assets. ' + COMPLIANCE_NOTICE + CDP_NOTICE,
     parameters: {
       action: { type: 'string', required: true, enum: ['get', 'save', 'validate', 'test'] },
       id: { type: 'string', description: 'Exact asset id for get, update, or validate.' },
@@ -214,7 +215,7 @@ export function registerTools(ctx: Context, config: ResolvedConfig, service: Bro
 
   register(defineTool({
     name: 'browser_automation_run',
-    description: '[Experimental] Run one manually activated reusable automation by id. Search first. Source and recipe internals remain Host-side; provide declared inputs and a target HTTP(S) URL. ' + COMPLIANCE_NOTICE,
+    description: '[Experimental] Run one manually activated reusable automation by id. Search first. Source and recipe internals remain Host-side; provide declared inputs and a target HTTP(S) URL. ' + COMPLIANCE_NOTICE + CDP_NOTICE,
     parameters: {
       id: { type: 'string', required: true }, url: { type: 'string', required: true },
       inputs: { type: 'object', additionalProperties: true, description: 'Declared string inputs used by named recipe placeholders.' },
@@ -238,7 +239,7 @@ export function registerTools(ctx: Context, config: ResolvedConfig, service: Bro
 
   register(defineTool({
     name: 'browser_open',
-    description: 'Open a URL in the persistent browser page and return the rendered title, readable text, and a full-page screenshot path. Optional bounded capture stores console messages and failed/4xx/5xx requests in memory without bodies or headers. ' + COMPLIANCE_NOTICE,
+    description: 'Open a URL in the persistent browser page and return the rendered title, readable text, and a full-page screenshot path. Optional bounded capture stores console messages and failed/4xx/5xx requests in memory without bodies or headers. ' + COMPLIANCE_NOTICE + CDP_NOTICE,
     parameters: {
       url: { type: 'string', required: true, description: 'The HTTP(S) URL to open.' },
       waitMs: { type: 'number', description: 'Extra settle time in ms after load.' },
@@ -268,7 +269,7 @@ export function registerTools(ctx: Context, config: ResolvedConfig, service: Bro
 
   register(defineTool({
     name: 'browser_click',
-    description: 'Click a CSS selector or structured Playwright locator on the current browser page, then return the updated page state. ' + COMPLIANCE_NOTICE,
+    description: 'Click a CSS selector or structured Playwright locator on the current browser page, then return the updated page state. ' + COMPLIANCE_NOTICE + CDP_NOTICE,
     parameters: {
       selector: { type: 'string', description: 'CSS selector of the element to click. Omit when locator is provided.' },
       locator: LOCATOR_SCHEMA,
@@ -295,7 +296,7 @@ export function registerTools(ctx: Context, config: ResolvedConfig, service: Bro
 
   register(defineTool({
     name: 'browser_type',
-    description: 'Type text into an input/textarea selected by CSS or a structured Playwright locator, then return the page state. ' + COMPLIANCE_NOTICE,
+    description: 'Type text into an input/textarea selected by CSS or a structured Playwright locator, then return the page state. ' + COMPLIANCE_NOTICE + CDP_NOTICE,
     parameters: {
       selector: { type: 'string', description: 'CSS selector of the input/textarea. Omit when locator is provided.' },
       locator: LOCATOR_SCHEMA,
@@ -323,7 +324,7 @@ export function registerTools(ctx: Context, config: ResolvedConfig, service: Bro
 
   register(defineTool({
     name: 'browser_wait',
-    description: 'Wait for one locator state, URL pattern, network idle, or a bounded amount of time on the active page. ' + COMPLIANCE_NOTICE,
+    description: 'Wait for one locator state, URL pattern, network idle, or a bounded amount of time on the active page. ' + COMPLIANCE_NOTICE + CDP_NOTICE,
     parameters: {
       selector: { type: 'string', description: 'CSS selector to wait for. Omit when locator or another wait mode is provided.' },
       locator: LOCATOR_SCHEMA,
@@ -348,7 +349,7 @@ export function registerTools(ctx: Context, config: ResolvedConfig, service: Bro
 
   register(defineTool({
     name: 'browser_press',
-    description: 'Press a key globally or on a CSS/semantic locator in the active page. ' + COMPLIANCE_NOTICE,
+    description: 'Press a key globally or on a CSS/semantic locator in the active page. ' + COMPLIANCE_NOTICE + CDP_NOTICE,
     parameters: {
       selector: { type: 'string', description: 'Optional CSS target. Omit for a global keyboard press or when locator is provided.' },
       locator: LOCATOR_SCHEMA,
@@ -363,7 +364,7 @@ export function registerTools(ctx: Context, config: ResolvedConfig, service: Bro
 
   register(defineTool({
     name: 'browser_select',
-    description: 'Select one or more values in a dropdown selected by CSS or a semantic locator. ' + COMPLIANCE_NOTICE,
+    description: 'Select one or more values in a dropdown selected by CSS or a semantic locator. ' + COMPLIANCE_NOTICE + CDP_NOTICE,
     parameters: {
       selector: { type: 'string', description: 'CSS selector. Omit when locator is provided.' }, locator: LOCATOR_SCHEMA,
       values: { type: 'array', required: true, items: { type: 'string' }, description: 'One to 20 option values.' },
@@ -377,7 +378,7 @@ export function registerTools(ctx: Context, config: ResolvedConfig, service: Bro
 
   register(defineTool({
     name: 'browser_check',
-    description: 'Check or uncheck a checkbox or radio control selected by CSS or a semantic locator. ' + COMPLIANCE_NOTICE,
+    description: 'Check or uncheck a checkbox or radio control selected by CSS or a semantic locator. ' + COMPLIANCE_NOTICE + CDP_NOTICE,
     parameters: {
       selector: { type: 'string', description: 'CSS selector. Omit when locator is provided.' }, locator: LOCATOR_SCHEMA,
       checked: { type: 'boolean', description: 'True to check, false to uncheck. Defaults to true.' },
@@ -391,7 +392,7 @@ export function registerTools(ctx: Context, config: ResolvedConfig, service: Bro
 
   register(defineTool({
     name: 'browser_hover',
-    description: 'Hover a CSS selector or semantic locator on the current browser page and return the updated state. ' + COMPLIANCE_NOTICE,
+    description: 'Hover a CSS selector or semantic locator on the current browser page and return the updated state. ' + COMPLIANCE_NOTICE + CDP_NOTICE,
     parameters: {
       selector: { type: 'string', description: 'CSS selector of the element to hover. Omit when locator is provided.' },
       locator: LOCATOR_SCHEMA,
@@ -412,7 +413,7 @@ export function registerTools(ctx: Context, config: ResolvedConfig, service: Bro
 
   register(defineTool({
     name: 'browser_set_files',
-    description: 'Set one or more existing local files on a file-input CSS selector in the current page. Paths must be absolute regular files; the tool reads them for upload but does not modify them. Approval discloses the requested paths unless automationMode=unrestricted. ' + COMPLIANCE_NOTICE,
+    description: 'Set one or more existing local files on a file-input CSS selector in the current page. Paths must be absolute regular files; the tool reads them for upload but does not modify them. Approval discloses the requested paths unless automationMode=unrestricted. ' + COMPLIANCE_NOTICE + CDP_NOTICE,
     parameters: {
       selector: { type: 'string', description: 'CSS selector of an input[type=file] element. Omit when locator is provided.' },
       locator: LOCATOR_SCHEMA,
@@ -437,7 +438,7 @@ export function registerTools(ctx: Context, config: ResolvedConfig, service: Bro
 
   register(defineTool({
     name: 'browser_evaluate',
-    description: 'Evaluate one bounded JavaScript expression in the current page and return capped JSON. It runs with the page origin and login state, so it can read or mutate the DOM, access non-HttpOnly cookies/storage, and issue requests allowed by the browser. It has no Node.js or direct host-filesystem access, and downloads are not persisted by this tool. ' + COMPLIANCE_NOTICE,
+    description: 'Evaluate one bounded JavaScript expression in the current page and return capped JSON. It runs with the page origin and login state, so it can read or mutate the DOM, access non-HttpOnly cookies/storage, and issue requests allowed by the browser. It has no Node.js or direct host-filesystem access, and downloads are not persisted by this tool. ' + COMPLIANCE_NOTICE + CDP_NOTICE,
     parameters: {
       expression: { type: 'string', required: true, description: 'A JavaScript expression up to 20,000 characters. The resolved value must be JSON-serializable.' },
       timeoutMs: { type: 'number', description: 'Execution timeout from 1,000 to 30,000 ms. Default 15,000; Chromium page execution is terminated while the page remains open.' },
@@ -461,7 +462,7 @@ export function registerTools(ctx: Context, config: ResolvedConfig, service: Bro
 
   register(defineTool({
     name: 'browser_console',
-    description: 'Return bounded, redacted console records captured since the latest browser_open with capture=[console]. Records stay in memory and omit console argument objects. ' + COMPLIANCE_NOTICE,
+    description: 'Return bounded, redacted console records captured since the latest browser_open with capture=[console]. Records stay in memory and omit console argument objects. ' + COMPLIANCE_NOTICE + CDP_NOTICE,
     parameters: {
       level: { type: 'string', enum: ['debug', 'log', 'info', 'warning', 'error'], description: 'Minimum severity. Defaults to debug.' },
       limit: { type: 'number', description: 'Return the newest 1 to 200 records. Default 100.' },
@@ -479,7 +480,7 @@ export function registerTools(ctx: Context, config: ResolvedConfig, service: Bro
 
   register(defineTool({
     name: 'browser_requests',
-    description: 'Return bounded, redacted failed and HTTP 4xx/5xx requests captured since the latest browser_open with capture=[network]. Request/response bodies and headers are never recorded. ' + COMPLIANCE_NOTICE,
+    description: 'Return bounded, redacted failed and HTTP 4xx/5xx requests captured since the latest browser_open with capture=[network]. Request/response bodies and headers are never recorded. ' + COMPLIANCE_NOTICE + CDP_NOTICE,
     parameters: {
       limit: { type: 'number', description: 'Return the newest 1 to 200 records. Default 100.' },
       clear: { type: 'boolean', description: 'Clear captured records after reading.' },
@@ -496,7 +497,7 @@ export function registerTools(ctx: Context, config: ResolvedConfig, service: Bro
 
   register(defineTool({
     name: 'browser_scroll',
-    description: 'Scroll the current browser page vertically by deltaY pixels (positive = down) to trigger lazy loading, then return the page state. ' + COMPLIANCE_NOTICE,
+    description: 'Scroll the current browser page vertically by deltaY pixels (positive = down) to trigger lazy loading, then return the page state. ' + COMPLIANCE_NOTICE + CDP_NOTICE,
     parameters: {
       deltaY: { type: 'number', description: 'Pixels to scroll; positive scrolls down. Default 2000.' },
     },
@@ -546,7 +547,7 @@ export function registerTools(ctx: Context, config: ResolvedConfig, service: Bro
 
   register(defineTool({
     name: 'browser_screenshot',
-    description: 'Capture the page, a bounded region, or a CSS/semantic locator. Files always land inside the configured snapshotDir under a plain caller-supplied filename or an autogenerated name. ' + COMPLIANCE_NOTICE,
+    description: 'Capture the page, a bounded region, or a CSS/semantic locator. Files always land inside the configured snapshotDir under a plain caller-supplied filename or an autogenerated name. ' + COMPLIANCE_NOTICE + CDP_NOTICE,
     parameters: {
       selector: { type: 'string', description: 'Optional CSS selector. Omit when locator is provided.' },
       locator: LOCATOR_SCHEMA,
@@ -610,6 +611,8 @@ export function registerTools(ctx: Context, config: ResolvedConfig, service: Bro
           browserRuntime: { type: 'string', required: true, enum: ['playwright', 'patchright'] },
           runtimeWarnings: { type: 'array', required: true, items: { type: 'string' } },
           headless: { type: 'boolean', required: true },
+          cdpEndpoint: { type: 'string' },
+          cdpConnected: { type: 'boolean', required: true },
           opencliEnabled: { type: 'boolean', required: true },
           opencliInstalled: { type: 'boolean', required: true },
           opencliEntryPath: { type: 'string' },
@@ -639,6 +642,7 @@ export function registerTools(ctx: Context, config: ResolvedConfig, service: Bro
         return [{ type: 'text', text: [
           'browser: ' + (v.enabled ? 'enabled' : 'disabled'),
           'runtime: ' + v.browserRuntime + ' / ' + v.channel + (v.headless ? ' (headless)' : ' (headed)'),
+          ...(v.cdpEndpoint ? ['cdp: ' + v.cdpEndpoint + (v.cdpConnected ? ' (connected)' : ' (disconnected)')] : []),
           'automation mode: ' + v.automationMode + ' (' + v.exposedTools.length + ' tools exposed)',
           'direct interactions: ' + v.directInteractionPolicy,
           'mutating recipes: ' + v.mutatingRecipePolicy,
@@ -773,7 +777,7 @@ export function registerTools(ctx: Context, config: ResolvedConfig, service: Bro
 
   register(defineTool({
     name: 'browser_script_run_builtin',
-    description: 'Run one trusted built-in read-only script in a fresh Playwright context and return bounded JSON. Supports named AuthProfile and RulePack selection. ' + COMPLIANCE_NOTICE,
+    description: 'Run one trusted built-in read-only script in a fresh Playwright context and return bounded JSON. Supports named AuthProfile and RulePack selection. ' + COMPLIANCE_NOTICE + CDP_NOTICE,
     parameters: {
       url: { type: 'string', required: true },
       scriptId: { type: 'string', required: true, enum: ['article-clean', 'links', 'jsonld', 'forms'] },
@@ -796,7 +800,7 @@ export function registerTools(ctx: Context, config: ResolvedConfig, service: Bro
 
   register(defineTool({
     name: 'browser_userscript_run',
-    description: 'Run an externally supplied Tampermonkey/UserScript-style script in a fresh Playwright context. Approval follows automationMode (skipped only in unrestricted); target @match, source/result caps, and no-GM_* validation always apply. ' + COMPLIANCE_NOTICE,
+    description: 'Run an externally supplied Tampermonkey/UserScript-style script in a fresh Playwright context. Approval follows automationMode (skipped only in unrestricted); target @match, source/result caps, and no-GM_* validation always apply. ' + COMPLIANCE_NOTICE + CDP_NOTICE,
     parameters: {
       url: { type: 'string', required: true },
       source: { type: 'string', required: true, description: 'Complete userscript source. Validate first. Never embed credentials or tokens.' },
@@ -819,7 +823,7 @@ export function registerTools(ctx: Context, config: ResolvedConfig, service: Bro
 
   register(defineTool({
     name: 'browser_recipe_run',
-    description: 'Run a bounded Playwright recipe (max 25 named steps). Read-only steps run directly; mutating steps are denied in read-only, approved once in standard, and direct in autonomous/unrestricted. ' + COMPLIANCE_NOTICE,
+    description: 'Run a bounded Playwright recipe (max 25 named steps). Read-only steps run directly; mutating steps are denied in read-only, approved once in standard, and direct in autonomous/unrestricted. ' + COMPLIANCE_NOTICE + CDP_NOTICE,
     parameters: {
       url: { type: 'string', description: 'Open this URL first; omit only when browser_open already established an active page.' },
       authProfile: { type: 'string' },
@@ -877,7 +881,7 @@ export function registerTools(ctx: Context, config: ResolvedConfig, service: Bro
 
   register(defineTool({
     name: 'browser_crawl',
-    description: 'Crawl a bounded set of HTTP(S) pages with the configured concurrency, burst, page/depth, retry, and cooldown budgets. This is read-only and remains buffered even in unrestricted/no-approval mode. ' + COMPLIANCE_NOTICE,
+    description: 'Crawl a bounded set of HTTP(S) pages with the configured concurrency, burst, page/depth, retry, and cooldown budgets. This is read-only and remains buffered even in unrestricted/no-approval mode. ' + COMPLIANCE_NOTICE + CDP_NOTICE,
     parameters: {
       startUrls: { type: 'array', required: true, items: { type: 'string' }, description: 'One to five starting URLs.' },
       maxPages: { type: 'number', description: 'Page budget, capped by usagePolicy.maxPagesPerRun.' },
@@ -965,7 +969,7 @@ export function registerTools(ctx: Context, config: ResolvedConfig, service: Bro
 
   register(defineTool({
     name: 'browser_opencli_run',
-    description: 'Run any bundled OpenCLI adapter or browser-session command with verbatim argv. Approval is skipped only in unrestricted because commands may reuse logged-in Chrome state or perform writes. Prefer existing read-only search tools when available. ' + COMPLIANCE_NOTICE,
+    description: 'Run any bundled OpenCLI adapter or browser-session command with verbatim argv. Approval is skipped only in unrestricted because commands may reuse logged-in Chrome state or perform writes. Prefer existing read-only search tools when available. ' + COMPLIANCE_NOTICE + CDP_NOTICE,
     parameters: {
       args: { type: 'array', required: true, items: { type: 'string' }, description: 'Arguments after opencli, e.g. ["browser","work","state"] or ["reddit","search","dsh","-f","json"].' },
       profile: { type: 'string', description: 'Optional OpenCLI profile alias, passed as --profile.' },

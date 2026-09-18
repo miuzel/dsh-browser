@@ -162,6 +162,8 @@ export interface BrowserStatus {
   browserRuntime: 'playwright' | 'patchright'
   runtimeWarnings: string[]
   headless: boolean
+  cdpEndpoint?: string
+  cdpConnected: boolean
   opencliEnabled: boolean
   opencliInstalled: boolean
   opencliEntryPath?: string
@@ -368,6 +370,17 @@ export class BrowserService {
     if (!this.launching) {
       this.launching = (async () => {
         const pw = loadBrowserRuntime(this.config.browserRuntime)
+        
+        // 优先尝试通过 CDP 连接已有浏览器实例
+        if (this.config.cdpEndpoint) {
+          try {
+            const browser = await pw.chromium.connectOverCDP(this.config.cdpEndpoint)
+            return this.trackBrowser(browser)
+          } catch (error: any) {
+            throw new Error('dsh-browser: failed to connect to CDP endpoint ' + this.config.cdpEndpoint + ': ' + error.message)
+          }
+        }
+        
         const launchOptions: Record<string, unknown> = { headless: this.config.headless }
         if (this.config.channel) launchOptions.channel = this.config.channel
         if (this.config.executablePath) launchOptions.executablePath = this.config.executablePath
@@ -1166,7 +1179,19 @@ export class BrowserService {
       runtimeWarnings.push(`Expected Chromium executable is missing: ${chromiumExecutablePath}. Run browser_install for ${this.config.browserRuntime}.`)
     }
     if (this.config.opencliEnabled && !opencliInstalled) runtimeWarnings.push('OpenCLI is enabled but its package entry is not installed.')
+    
+    // CDP 连接状态
+    const cdpConnected = !!this.config.cdpEndpoint && this.browserConnected()
+    if (this.config.cdpEndpoint) {
+      runtimeWarnings.push(`CDP endpoint configured: ${this.config.cdpEndpoint}`)
+      if (!cdpConnected) {
+        runtimeWarnings.push('CDP connection not established yet.')
+      }
+    }
+    
     return {
+      cdpEndpoint: this.config.cdpEndpoint,
+      cdpConnected,
       enabled: this.config.enabled,
       channel: this.config.channel,
       browserRuntime: this.config.browserRuntime,

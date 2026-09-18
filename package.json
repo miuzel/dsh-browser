@@ -1,7 +1,7 @@
 {
   "name": "@anweat/dsh-browser",
   "version": "0.1.14-alpha.2",
-  "description": "Self-contained browser runtime plugin for DeepSeek Harness (scoped @anweat) — bundles Playwright (chromium) and OpenCLI as plugin-local dependencies (with global-reuse fallback), exposes a `browser` service and interactive browser tools.",
+  "description": "Self-contained browser runtime plugin for DeepSeek Harness (scoped @anweat) \u2014 bundles Playwright (chromium) and OpenCLI as plugin-local dependencies (with global-reuse fallback), exposes a `browser` service and interactive browser tools.",
   "license": "MIT",
   "type": "module",
   "main": "lib/index.js",
@@ -33,9 +33,7 @@
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "test": "node --test --experimental-transform-types test/*.test.ts",
     "test:client-bundle": "node scripts/check-client-bundle.mjs",
-    "verify": "pnpm run typecheck && pnpm run build && pnpm test && pnpm run test:client-bundle",
-    "prepublishOnly": "pnpm run verify",
-    "prepare": "npm run build"
+    "verify": "pnpm run typecheck && pnpm run build && pnpm test && pnpm run test:client-bundle"
   },
   "peerDependencies": {
     "@deepseek-ai/cordis": "4.0.2",

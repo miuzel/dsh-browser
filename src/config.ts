@@ -41,6 +41,8 @@ export interface Config {
   rulePacks?: Record<string, RulePackConfig>
   /** Explicit browser executable path override (rare). */
   executablePath?: string
+  /** CDP endpoint URL to connect to an existing browser instance (e.g., http://127.0.0.1:9222). */
+  cdpEndpoint?: string
   /** Whether the bundled OpenCLI is enabled. */
   opencliEnabled: boolean
   /** Model-facing tool exposure and approval level. */
@@ -83,6 +85,7 @@ export const Config: z<Config> = z.object({
     })).default([]),
   })),
   executablePath: z.string(),
+  cdpEndpoint: z.string(),
   opencliEnabled: z.boolean().default(true),
   automationMode: z.string().default('standard'),
   usagePolicy: z.object({
@@ -129,6 +132,7 @@ export interface ResolvedConfig {
   defaultAuthProfile?: string
   rulePacks: Record<string, RulePackConfig>
   executablePath?: string
+  cdpEndpoint?: string
   opencliEnabled: boolean
   automationMode: AutomationMode
   usagePolicy: UsagePolicy
@@ -162,5 +166,6 @@ export function resolveConfig(config: Config): ResolvedConfig {
     ...config.defaultAuthProfile ? { defaultAuthProfile: config.defaultAuthProfile } : {},
     ...config.storageStatePath !== undefined && config.storageStatePath !== '' ? { storageStatePath: config.storageStatePath } : {},
     ...config.executablePath !== undefined && config.executablePath !== '' ? { executablePath: config.executablePath } : {},
+    ...config.cdpEndpoint !== undefined && config.cdpEndpoint !== '' ? { cdpEndpoint: config.cdpEndpoint } : {},
   }
 }
